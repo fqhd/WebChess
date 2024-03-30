@@ -10,9 +10,12 @@ canvas.width *= dpr;
 canvas.height *= dpr;
 const ctx = canvas.getContext('2d');
 ctx.scale(dpr, dpr);
+const moveInput = document.getElementById('moveInput');
+const button = document.getElementById('sendButton');
+button.onclick = playMove;
+const message = document.getElementById('messageLabel');
 
 const pieceImages = {}
-
 function loadImage(path) {
 	return new Promise((resolve, reject) => {
 		const img = new Image();
@@ -62,6 +65,18 @@ function drawPieces() {
 			}
 
 		}
+	}
+}
+
+function playMove() {
+	const move = moveInput.value;
+	if (chess.moves().includes(move)) {
+		chess.move(move);
+		drawBoard();
+		drawPieces();
+		message.textContent = ''
+	} else {
+		message.innerHTML += 'invalid move<br>';
 	}
 }
 
