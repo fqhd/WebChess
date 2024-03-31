@@ -14,6 +14,7 @@ const moveInput = document.getElementById('moveInput');
 const button = document.getElementById('sendButton');
 button.onclick = playMove;
 const message = document.getElementById('messageLabel');
+let canplay = true;
 
 const pieceImages = {}
 function loadImage(path) {
@@ -68,15 +69,43 @@ function drawPieces() {
 	}
 }
 
-function playMove() {
+function decode(text) {
+	const encoder = new TextEncoder();
+	const uint8Array = encoder.encode(text);
+
+	// Decode the Uint8Array using TextDecoder
+	const decoder = new TextDecoder('utf-8');
+	const decodedText = decoder.decode(uint8Array);
+	return decodedText;
+}
+
+async function playMove() {
+	if (!canplay) {
+		return;
+	}
+	canplay = false;
 	const move = moveInput.value;
 	if (chess.moves().includes(move)) {
 		chess.move(move);
 		drawBoard();
 		drawPieces();
 		message.textContent = ''
+		let botMove = await fetch('http://localhost:5000/chessbot', {
+			method: 'GET',
+			headers: {
+				'fen': chess.fen(),
+				'depth': '3'
+			}
+		});
+		botMove = await botMove.text();
+		botMove = botMove.slice(0, -2);
+		chess.move(botMove);
+		drawBoard();
+		drawPieces();
+		canplay = true;
 	} else {
 		message.innerHTML += 'invalid move<br>';
+		canplay = true;
 	}
 }
 
