@@ -90,7 +90,7 @@ async function playMove() {
 		drawBoard();
 		drawPieces();
 		message.textContent = ''
-		let botMove = await fetch('http://localhost:5000/chessbot', {
+		let botMove = await fetch('http://161.97.81.158:5000/chessbot', {
 			method: 'GET',
 			headers: {
 				'fen': chess.fen(),
