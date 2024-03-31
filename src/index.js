@@ -69,16 +69,6 @@ function drawPieces() {
 	}
 }
 
-function decode(text) {
-	const encoder = new TextEncoder();
-	const uint8Array = encoder.encode(text);
-
-	// Decode the Uint8Array using TextDecoder
-	const decoder = new TextDecoder('utf-8');
-	const decodedText = decoder.decode(uint8Array);
-	return decodedText;
-}
-
 async function playMove() {
 	if (!canplay) {
 		return;
@@ -90,7 +80,7 @@ async function playMove() {
 		drawBoard();
 		drawPieces();
 		message.textContent = '';
-		let botMove = await fetch('https:/api.whoisfahd.dev:5000/chessbot', {
+		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
 			method: 'GET',
 			headers: {
 				'fen': chess.fen(),
@@ -98,7 +88,7 @@ async function playMove() {
 			}
 		});
 		botMove = await botMove.text();
-		botMove = botMove.slice(0, -2);
+		botMove = botMove.trim();
 		chess.move(botMove);
 		drawBoard();
 		drawPieces();
