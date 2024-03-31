@@ -1,6 +1,6 @@
 import { Chess } from 'chess.js'
 
-const chess = new Chess()
+const chess = new Chess();
 
 const canvas = document.getElementById('chessboard');
 const dpr = window.devicePixelRatio || 1;
@@ -89,8 +89,8 @@ async function playMove() {
 		chess.move(move);
 		drawBoard();
 		drawPieces();
-		message.textContent = ''
-		let botMove = await fetch('http://161.97.81.158:5000/chessbot', {
+		message.textContent = '';
+		let botMove = await fetch('https:/api.whoisfahd.dev:5000/chessbot', {
 			method: 'GET',
 			headers: {
 				'fen': chess.fen(),
