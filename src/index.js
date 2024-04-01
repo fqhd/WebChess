@@ -253,6 +253,8 @@ async function playMove(move) {
 	}
 	canplay = false;
 	if (chess.moves().includes(move)) {
+		moveInput.placeholder = 'Enter your move here';
+		moveInput.classList.remove('red-ph');
 		let parsedMove = chess.move(move);
 		if (chess.inCheck()) {
 			checkAudio.play();
@@ -288,6 +290,8 @@ async function playMove(move) {
 		drawPieces();
 		canplay = true;
 	} else {
+		moveInput.placeholder = 'Invalid Move';
+		moveInput.classList.add('red-ph');
 		canplay = true;
 	}
 }

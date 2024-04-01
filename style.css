@@ -95,8 +95,12 @@ p {
 	height: 10px;
 }
 
-#moveInput::placeholder {
+input::placeholder {
 	color: #ccc;
+}
+
+.red-ph::placeholder {
+	color: #f00;
 }
 
 #moveInput:focus {
