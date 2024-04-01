@@ -15,6 +15,7 @@ moveInput.addEventListener('keypress', moveSent);
 const history = document.getElementById('history');
 const depth_input = document.getElementById('search-depth');
 depth_input.addEventListener('blur', depth_changed);
+document.getElementById('back-button').onclick = takeBack;
 let moveNumber = 1;
 let canplay = true;
 let depth = 5;
@@ -51,6 +52,17 @@ function depth_changed() {
     }else{
 		depth_input.value = value;
 		depth = value;
+	}
+}
+
+function takeBack() {
+	if (canplay && history.hasChildNodes()) {
+		chess.undo();
+		chess.undo();
+		history.removeChild(history.lastChild);
+		history.removeChild(history.lastChild);
+		drawBoard();
+		drawPieces();
 	}
 }
 
