@@ -18,6 +18,7 @@ depth_input.addEventListener('blur', depth_changed);
 document.getElementById('back-button').onclick = takeBack;
 document.getElementById('best-button').onclick = findBest;
 document.getElementById('flip-button').onclick = switchSides;
+document.getElementById('restart-button').onclick = restart;
 let moveNumber = 1;
 let canplay = true;
 let depth = 5;
@@ -58,9 +59,42 @@ function depth_changed() {
 	}
 }
 
+async function restart() {
+	if (canplay) {
+		chess.reset();
+		moveNumber = 1;
+		drawBoard();
+		drawPieces();
+		while (history.lastChild) {
+			history.removeChild(history.lastChild);
+		}
+		if (invert) {
+			let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
+				method: 'GET',
+				headers: {
+					'fen': chess.fen(),
+					'depth': depth
+				}
+			});
+			botMove = await botMove.text();
+			botMove = botMove.trim();
+			const parsedMove = chess.move(botMove);
+			drawBoard();
+			drawLastMove(parsedMove);
+			addMoveToHistory(botMove);
+			drawPieces();
+		} else {
+			drawBoard();
+			drawPieces();
+		}
+	}
+}
+
 async function switchSides() {
 	if (canplay) {
 		invert = !invert;
+		drawBoard();
+		drawPieces();
 		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
 			method: 'GET',
 			headers: {
