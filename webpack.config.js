@@ -5,9 +5,12 @@ module.exports = {
 	mode: 'development',
 	output: {
 		filename: 'script.js',
-		path: path.resolve(__dirname, 'public')
+		path: __dirname
 	},
 	devServer: {
+		static: {
+			directory: __dirname,
+		},
 		port: 9000
 	}
 }
