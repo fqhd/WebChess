@@ -11,6 +11,7 @@ canvas.height *= dpr;
 const ctx = canvas.getContext('2d');
 ctx.scale(dpr, dpr);
 const moveInput = document.getElementById('moveInput');
+moveInput.addEventListener('keypress', moveSent);
 const button = document.getElementById('sendButton');
 button.onclick = playMove;
 let canplay = true;
@@ -94,12 +95,18 @@ function drawLastMove(parsedMove) {
 	drawSquare(toSquare[0], parseInt(toSquare[1]));
 }
 
-async function playMove() {
+async function moveSent(event) {
+	if (event.keyCode === 13) {
+		playMove(moveInput.value);
+		moveInput.value = '';
+	}
+}
+
+async function playMove(move) {
 	if (!canplay) {
 		return;
 	}
 	canplay = false;
-	const move = moveInput.value;
 	if (chess.moves().includes(move)) {
 		let parsedMove = chess.move(move);
 		drawBoard();
