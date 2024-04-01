@@ -16,6 +16,7 @@ const history = document.getElementById('history');
 const depth_input = document.getElementById('search-depth');
 depth_input.addEventListener('blur', depth_changed);
 document.getElementById('back-button').onclick = takeBack;
+document.getElementById('best-button').onclick = findBest;
 let moveNumber = 1;
 let canplay = true;
 let depth = 5;
@@ -52,6 +53,25 @@ function depth_changed() {
     }else{
 		depth_input.value = value;
 		depth = value;
+	}
+}
+
+async function findBest() {
+	if (canplay) {
+		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
+			method: 'GET',
+			headers: {
+				'fen': chess.fen(),
+				'depth': depth
+			}
+		});
+		botMove = await botMove.text();
+		botMove = botMove.trim();
+		const parsedMove = chess.move(botMove);
+		chess.undo();
+		drawBoard();
+		drawLastMove(parsedMove);
+		drawPieces();
 	}
 }
 
