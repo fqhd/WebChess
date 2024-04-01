@@ -23,6 +23,9 @@ let moveNumber = 1;
 let canplay = true;
 let depth = 5;
 let invert = false;
+const moveAudio = new Audio('./res/move.mp3');
+const captureAudio = new Audio('./res/capture.mp3');
+const checkAudio = new Audio('./res/check.mp3');
 
 const pieceImages = {}
 function loadImage(path) {
@@ -79,6 +82,13 @@ async function restart() {
 			botMove = await botMove.text();
 			botMove = botMove.trim();
 			const parsedMove = chess.move(botMove);
+			if (chess.inCheck()) {
+				checkAudio.play();
+			}else if (parsedMove.captured) {
+				captureAudio.play();
+			} else {
+				moveAudio.play();
+			}
 			drawBoard();
 			drawLastMove(parsedMove);
 			addMoveToHistory(botMove);
@@ -105,6 +115,13 @@ async function switchSides() {
 		botMove = await botMove.text();
 		botMove = botMove.trim();
 		const parsedMove = chess.move(botMove);
+		if (chess.inCheck()) {
+			checkAudio.play();
+		}else if (parsedMove.captured) {
+			captureAudio.play();
+		} else {
+			moveAudio.play();
+		}
 		drawBoard();
 		drawLastMove(parsedMove);
 		addMoveToHistory(botMove);
@@ -228,6 +245,13 @@ async function playMove(move) {
 	canplay = false;
 	if (chess.moves().includes(move)) {
 		let parsedMove = chess.move(move);
+		if (chess.inCheck()) {
+			checkAudio.play();
+		}else if (parsedMove.captured) {
+			captureAudio.play();
+		} else {
+			moveAudio.play();
+		}
 		drawBoard();
 		drawLastMove(parsedMove);
 		addMoveToHistory(move);
@@ -242,6 +266,13 @@ async function playMove(move) {
 		botMove = await botMove.text();
 		botMove = botMove.trim();
 		parsedMove = chess.move(botMove);
+		if (chess.inCheck()) {
+			checkAudio.play();
+		}else if (parsedMove.captured) {
+			captureAudio.play();
+		} else {
+			moveAudio.play();
+		}
 		drawBoard();
 		drawLastMove(parsedMove);
 		addMoveToHistory(botMove);
