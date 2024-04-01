@@ -43,7 +43,7 @@ function chessboardIndexToSquare(x, y) {
 }
 
 function drawBoard() {
-	const colors = ['#a16f5a', '#ebd2b7'];
+	const colors = ['#ebd2b7', '#a16f5a'];
 	const tileSize = canvas.width / 8 / dpr;
 
 	for(let i = 0; i < 8; i++) {
