@@ -46,7 +46,7 @@ h1 {
 	font-size: 24px;
 	font-family: 'Roboto';
 	font-weight: 400;
-	color: #ccc;
+	color: #ddd;
 }
 
 #search-depth {
@@ -60,7 +60,7 @@ h1 {
 	font-size: 24px;
 	font-family: 'Roboto';
 	font-weight: 400;
-	color: #ccc;
+	color: #ddd;
 }
 
 .side-pane {
@@ -90,7 +90,7 @@ p {
 	font-family: 'Roboto';
 	font-size: 14px;
 	font-weight: 500;
-	color: #ccc;
+	color: #ddd;
 	width: 40%;
 	height: 10px;
 }
@@ -112,12 +112,19 @@ button {
 	font-weight: 400;
 	height: 50px;
 	background-color: #191919; /* Button background color */
-	color: #fff; /* Button text color */
+	color: #ddd; /* Button text color */
 	padding: 10px 20px; /* Button padding */
 	font-size: 18px; /* Button text font size */
 	border: none; /* Remove button border */
 	cursor: pointer; /* Show pointer cursor on hover */
 	transition: background-color 0.3s ease; /* Add transition effect */
+	width: 50%;
+}
+
+.buttons {
+	width: 100%;
+	display: flex;
+	flex-flow: row wrap;
 }
   
 /* Hover style for the button */

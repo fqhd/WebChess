@@ -12,8 +12,6 @@ const ctx = canvas.getContext('2d');
 ctx.scale(dpr, dpr);
 const moveInput = document.getElementById('moveInput');
 moveInput.addEventListener('keypress', moveSent);
-const button = document.getElementById('sendButton');
-button.onclick = playMove;
 const history = document.getElementById('history');
 const depth_input = document.getElementById('search-depth');
 depth_input.addEventListener('blur', depth_changed);
