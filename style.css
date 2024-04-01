@@ -6,7 +6,7 @@
 }
 
 body {
-	background-color: #333333;
+	background-color: #333;
 	display: flex;
 	width: 100vw;
 	height: 100vh;
@@ -14,14 +14,20 @@ body {
 
 .workspace {
 	margin: auto;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: end;
 }
 
-input {
+.playing-board {
+	display: flex;
+}
+
+#moveInput {
 	height: 50px;
 	padding: 10px;
 	outline: none;
 	border-style: none;
-	border-radius: 4px;
 	background-color: #333333;
 	transition: background-color 0.3s ease;
 	text-align: center;
@@ -31,8 +37,30 @@ input {
 	font-weight: 400;
 }
 
-.workspace {
+.depth-section {
 	display: flex;
+}
+
+h1 {
+	flex-flow: row nowrap;
+	font-size: 24px;
+	font-family: 'Roboto';
+	font-weight: 400;
+	color: #ccc;
+}
+
+#search-depth {
+	width: 48px;
+	outline: none;
+	border-style: none;
+	background-color: #333333;
+	transition: background-color 0.3s ease;
+	text-align: center;
+	flex-flow: row nowrap;
+	font-size: 24px;
+	font-family: 'Roboto';
+	font-weight: 400;
+	color: #ccc;
 }
 
 .side-pane {
@@ -67,11 +95,11 @@ p {
 	height: 10px;
 }
 
-input::placeholder {
+#moveInput::placeholder {
 	color: #ccc;
 }
 
-input:focus {
+#moveInput:focus {
 	background-color: #252526;
 }
 
@@ -92,7 +120,7 @@ button {
 	transition: background-color 0.3s ease; /* Add transition effect */
 }
   
-  /* Hover style for the button */
+/* Hover style for the button */
 button:hover {
 	background-color: #FEE258FF; /* Darken button background color on hover */
 }

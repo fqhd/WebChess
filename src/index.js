@@ -15,8 +15,11 @@ moveInput.addEventListener('keypress', moveSent);
 const button = document.getElementById('sendButton');
 button.onclick = playMove;
 const history = document.getElementById('history');
+const depth_input = document.getElementById('search-depth');
+depth_input.addEventListener('blur', depth_changed);
 let moveNumber = 1;
 let canplay = true;
+let depth = 5;
 
 const pieceImages = {}
 function loadImage(path) {
@@ -34,6 +37,22 @@ async function loadPieces() {
 			const imageSrc = './pieces/' + c + p + '.png';
 			pieceImages[c + p] = await loadImage(imageSrc);
 		}
+	}
+}
+
+function depth_changed() {
+	const value = parseInt(depth_input.value);
+
+    if (isNaN(value) || value < 0) {
+        depth_input.value = '0';
+		depth = 0;
+    }
+    else if (value > 9) {
+        depth_input.value = '9';
+		depth = 9;
+    }else{
+		depth_input.value = value;
+		depth = value;
 	}
 }
 
@@ -126,7 +145,7 @@ async function playMove(move) {
 			method: 'GET',
 			headers: {
 				'fen': chess.fen(),
-				'depth': '6'
+				'depth': depth
 			}
 		});
 		botMove = await botMove.text();
