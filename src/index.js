@@ -17,9 +17,11 @@ const depth_input = document.getElementById('search-depth');
 depth_input.addEventListener('blur', depth_changed);
 document.getElementById('back-button').onclick = takeBack;
 document.getElementById('best-button').onclick = findBest;
+document.getElementById('flip-button').onclick = switchSides;
 let moveNumber = 1;
 let canplay = true;
 let depth = 5;
+let invert = false;
 
 const pieceImages = {}
 function loadImage(path) {
@@ -56,6 +58,26 @@ function depth_changed() {
 	}
 }
 
+async function switchSides() {
+	if (canplay) {
+		invert = !invert;
+		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
+			method: 'GET',
+			headers: {
+				'fen': chess.fen(),
+				'depth': depth
+			}
+		});
+		botMove = await botMove.text();
+		botMove = botMove.trim();
+		const parsedMove = chess.move(botMove);
+		drawBoard();
+		drawLastMove(parsedMove);
+		addMoveToHistory(botMove);
+		drawPieces();
+	}
+}
+
 async function findBest() {
 	if (canplay) {
 		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
@@ -77,6 +99,7 @@ async function findBest() {
 
 function takeBack() {
 	if (canplay && history.hasChildNodes()) {
+		moveNumber -= 2;
 		chess.undo();
 		chess.undo();
 		history.removeChild(history.lastChild);
@@ -97,7 +120,7 @@ function drawBoard() {
 
 	for(let i = 0; i < 8; i++) {
 		for(let j = 0; j < 8; j++) {
-			const color = colors[(i + j) % 2];
+			const color = colors[(i + j + invert) % 2];
 			ctx.fillStyle = color;
 			ctx.fillRect(i * tileSize, j * tileSize, tileSize, tileSize);
 		}
@@ -113,9 +136,12 @@ function drawPieces() {
 			
 			if (piece) {
 				const pieceImage = pieceImages[piece.color + piece.type];
-				ctx.drawImage(pieceImage, i * tileSize, j * tileSize, tileSize, tileSize);
+				if (invert) {
+					ctx.drawImage(pieceImage, i * tileSize, (7 - j) * tileSize, tileSize, tileSize);
+				} else {
+					ctx.drawImage(pieceImage, i * tileSize, j * tileSize, tileSize, tileSize);
+				}
 			}
-
 		}
 	}
 }
@@ -133,6 +159,7 @@ function drawSquare(file, rank) {
 	};
 	file = fileToInt[file];
 	rank = 8 - rank;
+	if (invert) rank = 7 - rank;
 	const tileSize = canvas.width / 8 / dpr;
 	ctx.fillStyle = "#FEE258FF";
 	ctx.fillRect(file * tileSize, rank * tileSize, tileSize, tileSize);
