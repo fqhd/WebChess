@@ -72,7 +72,7 @@ function depth_changed() {
 }
 
 async function restart() {
-	if (canplay) {
+	if (canplay || chess.isCheckmate()) {
 		chess.reset();
 		moveNumber = 1;
 		drawBoard();
@@ -80,6 +80,7 @@ async function restart() {
 		while (history.lastChild) {
 			history.removeChild(history.lastChild);
 		}
+		canplay = true;
 		if (invert) {
 			let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
 				method: 'GET',
@@ -253,7 +254,7 @@ function scrollToBottom() {
 }
 
 async function playMove(move) {
-	if (!canplay) {
+	if (!canplay || chess.isCheckmate()) {
 		return;
 	}
 	canplay = false;
@@ -272,6 +273,7 @@ async function playMove(move) {
 		drawLastMove(parsedMove);
 		addMoveToHistory(move);
 		drawPieces();
+		if(chess.isCheckmate()) return;
 		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
 			method: 'GET',
 			headers: {
