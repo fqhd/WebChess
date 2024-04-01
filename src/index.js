@@ -69,6 +69,32 @@ function drawPieces() {
 	}
 }
 
+function drawSquare(file, rank) {
+	const fileToInt = {
+		'a': 0,
+		'b': 1,
+		'c': 2,
+		'd': 3,
+		'e': 4,
+		'f': 5,
+		'g': 6,
+		'h': 7
+	};
+	file = fileToInt[file];
+	rank = 8 - rank;
+	const tileSize = canvas.width / 8 / dpr;
+	ctx.fillStyle = "#FEE258FF";
+	ctx.fillRect(file * tileSize, rank * tileSize, tileSize, tileSize);
+}
+
+function drawLastMove(parsedMove) {
+	const fromSquare = parsedMove.from;
+	const toSquare = parsedMove.to;
+
+	drawSquare(fromSquare[0], parseInt(fromSquare[1]));
+	drawSquare(toSquare[0], parseInt(toSquare[1]));
+}
+
 async function playMove() {
 	if (!canplay) {
 		return;
@@ -76,21 +102,23 @@ async function playMove() {
 	canplay = false;
 	const move = moveInput.value;
 	if (chess.moves().includes(move)) {
-		chess.move(move);
+		let parsedMove = chess.move(move);
 		drawBoard();
+		drawLastMove(parsedMove);
 		drawPieces();
 		message.textContent = '';
 		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
 			method: 'GET',
 			headers: {
 				'fen': chess.fen(),
-				'depth': '3'
+				'depth': '6'
 			}
 		});
 		botMove = await botMove.text();
 		botMove = botMove.trim();
-		chess.move(botMove);
+		parsedMove = chess.move(botMove);
 		drawBoard();
+		drawLastMove(parsedMove);
 		drawPieces();
 		canplay = true;
 	} else {
