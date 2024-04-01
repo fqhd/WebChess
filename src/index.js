@@ -245,6 +245,11 @@ function addMoveToHistory(move) {
 	p.textContent = moveNumber + '. ' + move;
 	moveNumber += 1;
 	history.appendChild(p);
+	scrollToBottom();
+}
+
+function scrollToBottom() {
+	history.scrollTop = history.scrollHeight;
 }
 
 async function playMove(move) {
