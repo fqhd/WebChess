@@ -38,10 +38,19 @@ function loadImage(path) {
 }
 
 async function loadPieces() {
+	let arr = [];
 	for(const c of ['b', 'w']) {
 		for(const p of ['p', 'r', 'n', 'b', 'q', 'k']) {
 			const imageSrc = './pieces/' + c + p + '.png';
-			pieceImages[c + p] = await loadImage(imageSrc);
+			arr.push(loadImage(imageSrc));
+		}
+	}
+	arr = await Promise.all(arr);
+	let index = 0;
+	for(const c of ['b', 'w']) {
+		for(const p of ['p', 'r', 'n', 'b', 'q', 'k']) {
+			pieceImages[c + p] = arr[index];
+			index++;
 		}
 	}
 }
