@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #333333;
+	display: flex;
+	width: 100vw;
+	height: 100vh;
+}
+
+.workspace {
+	margin: auto;
+}
+
+input {
+	width: 300px;
+	height: 50px;
+	padding: 10px;
+	outline: none;
+	border-style: none;
+	border-radius: 4px;
+	background-color: #333333;
+	transition: background-color 0.3s ease;
+	text-align: center;
+	color: #FEE258FF;
+	font-size: 24px;
+	font-family: 'Roboto';
+	font-weight: 400;
+}
+
+.workspace {
+	display: flex;
+}
+
+.side-pane {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-end;
+	background-color: #252526;
+}
+
+input::placeholder {
+	color: #ccc;
+}
+
+input:focus {
+	background-color: #252526;
+}
+
+canvas {
+	border: 5px solid #252526;
+}
+
+button {
+	height: 50px;
+	background-color: #191919; /* Button background color */
+	color: #fff; /* Button text color */
+	padding: 10px 20px; /* Button padding */
+	font-size: 18px; /* Button text font size */
+	border: none; /* Remove button border */
+	cursor: pointer; /* Show pointer cursor on hover */
+	transition: background-color 0.3s ease; /* Add transition effect */
+}
+  
+  /* Hover style for the button */
+button:hover {
+	background-color: #FEE258FF; /* Darken button background color on hover */
+}

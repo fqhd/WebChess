@@ -13,7 +13,6 @@ ctx.scale(dpr, dpr);
 const moveInput = document.getElementById('moveInput');
 const button = document.getElementById('sendButton');
 button.onclick = playMove;
-const message = document.getElementById('messageLabel');
 let canplay = true;
 
 const pieceImages = {}
@@ -106,7 +105,6 @@ async function playMove() {
 		drawBoard();
 		drawLastMove(parsedMove);
 		drawPieces();
-		message.textContent = '';
 		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
 			method: 'GET',
 			headers: {
@@ -122,7 +120,6 @@ async function playMove() {
 		drawPieces();
 		canplay = true;
 	} else {
-		message.innerHTML += 'invalid move<br>';
 		canplay = true;
 	}
 }

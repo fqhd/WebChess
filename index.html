@@ -3,16 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ChessBot</title>
+	<title>WebChess</title>
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<link rel="stylesheet" href="./style.css">
 </head>
 <body>
-	<canvas id="chessboard" width="512" height="512"></canvas>
-	<br>
-	<input id="moveInput" type="text">
-	<button id="sendButton">Send</button>
-	<br>
-	<label id="messageLabel"></label>
+	<div class="workspace">
+		<canvas id="chessboard" width="512" height="512"></canvas>
+		<div class="side-pane">
+			<button id="sendButton">Send</button>
+			<input id="moveInput" type="text" placeholder="Enter your move here">
+		</div>
+	</div>
+	
 </body>
 <script src="./script.js"></script>
 </html>
