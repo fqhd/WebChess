@@ -14,6 +14,8 @@ const moveInput = document.getElementById('moveInput');
 moveInput.addEventListener('keypress', moveSent);
 const button = document.getElementById('sendButton');
 button.onclick = playMove;
+const history = document.getElementById('history');
+let moveNumber = 1;
 let canplay = true;
 
 const pieceImages = {}
@@ -102,6 +104,13 @@ async function moveSent(event) {
 	}
 }
 
+function addMoveToHistory(move) {
+	const p = document.createElement('p');
+	p.textContent = moveNumber + '. ' + move;
+	moveNumber += 1;
+	history.appendChild(p);
+}
+
 async function playMove(move) {
 	if (!canplay) {
 		return;
@@ -111,6 +120,7 @@ async function playMove(move) {
 		let parsedMove = chess.move(move);
 		drawBoard();
 		drawLastMove(parsedMove);
+		addMoveToHistory(move);
 		drawPieces();
 		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
 			method: 'GET',
@@ -124,6 +134,7 @@ async function playMove(move) {
 		parsedMove = chess.move(botMove);
 		drawBoard();
 		drawLastMove(parsedMove);
+		addMoveToHistory(botMove);
 		drawPieces();
 		canplay = true;
 	} else {
