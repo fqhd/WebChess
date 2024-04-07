@@ -1,6 +1,6 @@
 import { Chess } from 'chess.js'
 
-const chess = new Chess('5r2/5r2/3k4/8/8/8/6K1/8 w - - 0 1');
+const chess = new Chess('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
 
 const canvas = document.getElementById('chessboard');
 const dpr = window.devicePixelRatio || 1;
