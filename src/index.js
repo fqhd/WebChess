@@ -198,7 +198,7 @@ function drawPieces() {
 			if (piece) {
 				const pieceImage = pieceImages[piece.color + piece.type];
 				if (invert) {
-					ctx.drawImage(pieceImage, i * tileSize, (7 - j) * tileSize, tileSize, tileSize);
+					ctx.drawImage(pieceImage, (7 - i) * tileSize, (7 - j) * tileSize, tileSize, tileSize);
 				} else {
 					ctx.drawImage(pieceImage, i * tileSize, j * tileSize, tileSize, tileSize);
 				}
