@@ -221,6 +221,7 @@ function drawSquare(file, rank) {
 	file = fileToInt[file];
 	rank = 8 - rank;
 	if (invert) rank = 7 - rank;
+	if (invert) file = 7 - file;
 	const tileSize = canvas.width / 8 / dpr;
 	ctx.fillStyle = "#FEE258FF";
 	ctx.fillRect(file * tileSize, rank * tileSize, tileSize, tileSize);
@@ -230,13 +231,8 @@ function drawLastMove(parsedMove) {
 	const fromSquare = parsedMove.from;
 	const toSquare = parsedMove.to;
 
-	if(invert) {
-		drawSquare(7 - fromSquare[0], 7 - parseInt(fromSquare[1]));
-		drawSquare(7 - toSquare[0], 7 - parseInt(toSquare[1]));
-	} else {
-		drawSquare(fromSquare[0], parseInt(fromSquare[1]));
-		drawSquare(toSquare[0], parseInt(toSquare[1]));
-	}
+	drawSquare(fromSquare[0], parseInt(fromSquare[1]));
+	drawSquare(toSquare[0], parseInt(toSquare[1]));
 }
 
 async function moveSent(event) {
