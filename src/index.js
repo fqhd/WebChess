@@ -230,8 +230,13 @@ function drawLastMove(parsedMove) {
 	const fromSquare = parsedMove.from;
 	const toSquare = parsedMove.to;
 
-	drawSquare(fromSquare[0], parseInt(fromSquare[1]));
-	drawSquare(toSquare[0], parseInt(toSquare[1]));
+	if(invert) {
+		drawSquare(7 - fromSquare[0], 7 - parseInt(fromSquare[1]));
+		drawSquare(7 - toSquare[0], 7 - parseInt(toSquare[1]));
+	} else {
+		drawSquare(fromSquare[0], parseInt(fromSquare[1]));
+		drawSquare(toSquare[0], parseInt(toSquare[1]));
+	}
 }
 
 async function moveSent(event) {
