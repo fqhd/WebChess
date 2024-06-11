@@ -12,16 +12,8 @@ const ctx = canvas.getContext('2d');
 ctx.scale(dpr, dpr);
 const moveInput = document.getElementById('moveInput');
 moveInput.addEventListener('keypress', moveSent);
-const history = document.getElementById('history');
-const depth_input = document.getElementById('search-depth');
-depth_input.addEventListener('blur', depth_changed);
-document.getElementById('back-button').onclick = takeBack;
 document.getElementById('best-button').onclick = findBest;
-document.getElementById('flip-button').onclick = switchSides;
 document.getElementById('restart-button').onclick = restart;
-let moveNumber = 1;
-let canplay = true;
-let depth = 5;
 let invert = false;
 const moveAudio = new Audio('./res/move.mp3');
 const captureAudio = new Audio('./res/capture.mp3');
@@ -55,31 +47,12 @@ async function loadPieces() {
 	}
 }
 
-function depth_changed() {
-	const value = parseInt(depth_input.value);
-
-    if (isNaN(value) || value < 0) {
-        depth_input.value = '0';
-		depth = 0;
-    }
-    else if (value > 9) {
-        depth_input.value = '9';
-		depth = 9;
-    }else{
-		depth_input.value = value;
-		depth = value;
-	}
-}
-
 async function restart() {
 	if (canplay || chess.isCheckmate()) {
 		chess.reset();
 		moveNumber = 1;
 		drawBoard();
 		drawPieces();
-		while (history.lastChild) {
-			history.removeChild(history.lastChild);
-		}
 		canplay = true;
 		if (invert) {
 			let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
@@ -110,64 +83,8 @@ async function restart() {
 	}
 }
 
-async function switchSides() {
-	if (canplay) {
-		invert = !invert;
-		drawBoard();
-		drawPieces();
-		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
-			method: 'GET',
-			headers: {
-				'fen': chess.fen(),
-				'depth': depth
-			}
-		});
-		botMove = await botMove.text();
-		botMove = botMove.trim();
-		const parsedMove = chess.move(botMove);
-		if (chess.inCheck()) {
-			checkAudio.play();
-		}else if (parsedMove.captured) {
-			captureAudio.play();
-		} else {
-			moveAudio.play();
-		}
-		drawBoard();
-		drawLastMove(parsedMove);
-		addMoveToHistory(botMove);
-		drawPieces();
-	}
-}
-
 async function findBest() {
-	if (canplay) {
-		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
-			method: 'GET',
-			headers: {
-				'fen': chess.fen(),
-				'depth': depth
-			}
-		});
-		botMove = await botMove.text();
-		botMove = botMove.trim();
-		const parsedMove = chess.move(botMove);
-		chess.undo();
-		drawBoard();
-		drawLastMove(parsedMove);
-		drawPieces();
-	}
-}
-
-function takeBack() {
-	if (canplay && history.hasChildNodes()) {
-		moveNumber -= 2;
-		chess.undo();
-		chess.undo();
-		history.removeChild(history.lastChild);
-		history.removeChild(history.lastChild);
-		drawBoard();
-		drawPieces();
-	}
+	/* */
 }
 
 function chessboardIndexToSquare(x, y) {
@@ -227,31 +144,11 @@ function drawSquare(file, rank) {
 	ctx.fillRect(file * tileSize, rank * tileSize, tileSize, tileSize);
 }
 
-function drawLastMove(parsedMove) {
-	const fromSquare = parsedMove.from;
-	const toSquare = parsedMove.to;
-
-	drawSquare(fromSquare[0], parseInt(fromSquare[1]));
-	drawSquare(toSquare[0], parseInt(toSquare[1]));
-}
-
 async function moveSent(event) {
 	if (event.keyCode === 13) {
 		playMove(moveInput.value);
 		moveInput.value = '';
 	}
-}
-
-function addMoveToHistory(move) {
-	const p = document.createElement('p');
-	p.textContent = moveNumber + '. ' + move;
-	moveNumber += 1;
-	history.appendChild(p);
-	scrollToBottom();
-}
-
-function scrollToBottom() {
-	history.scrollTop = history.scrollHeight;
 }
 
 async function playMove(move) {
@@ -272,7 +169,6 @@ async function playMove(move) {
 		}
 		drawBoard();
 		drawLastMove(parsedMove);
-		addMoveToHistory(move);
 		drawPieces();
 		if(chess.isCheckmate()) return;
 		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {

@@ -37,25 +37,7 @@ body {
 	font-weight: 400;
 }
 
-.depth-section {
-	display: flex;
-}
-
 h1 {
-	flex-flow: row nowrap;
-	font-size: 24px;
-	font-family: 'Roboto';
-	font-weight: 400;
-	color: #ddd;
-}
-
-#search-depth {
-	width: 48px;
-	outline: none;
-	border-style: none;
-	background-color: #333333;
-	transition: background-color 0.3s ease;
-	text-align: center;
 	flex-flow: row nowrap;
 	font-size: 24px;
 	font-family: 'Roboto';
@@ -74,7 +56,6 @@ h1 {
 .history {
 	overflow-y: scroll;
 	width: 100%;
-	height: 350px;
 	display: flex;
 	flex-flow: row wrap;
 	align-content: flex-start;
@@ -128,7 +109,7 @@ button {
 .buttons {
 	width: 100%;
 	display: flex;
-	flex-flow: row wrap;
+	flex-flow: row nowrap;
 }
   
 /* Hover style for the button */
