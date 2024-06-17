@@ -1,4 +1,5 @@
-import { Chess } from 'chess.js'
+import { Chess } from 'chess.js';
+
 
 const chess = new Chess('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
 
@@ -11,13 +12,14 @@ canvas.height *= dpr;
 const ctx = canvas.getContext('2d');
 ctx.scale(dpr, dpr);
 const moveInput = document.getElementById('moveInput');
-moveInput.addEventListener('keypress', moveSent);
+moveInput.addEventListener('keypress', keyPressed);
 document.getElementById('best-button').onclick = findBest;
 document.getElementById('restart-button').onclick = restart;
 let invert = false;
 const moveAudio = new Audio('./res/move.mp3');
 const captureAudio = new Audio('./res/capture.mp3');
 const checkAudio = new Audio('./res/check.mp3');
+
 
 const pieceImages = {}
 function loadImage(path) {
@@ -84,7 +86,14 @@ async function restart() {
 }
 
 async function findBest() {
-	/* */
+	/*
+	if current state is openings:
+
+	if current state is puzzles:
+
+	if current state is endgames:
+	
+	*/
 }
 
 function chessboardIndexToSquare(x, y) {
@@ -144,8 +153,8 @@ function drawSquare(file, rank) {
 	ctx.fillRect(file * tileSize, rank * tileSize, tileSize, tileSize);
 }
 
-async function moveSent(event) {
-	if (event.keyCode === 13) {
+async function keyPressed(event) {
+	if (event.keyCode === 13) { // Enter
 		playMove(moveInput.value);
 		moveInput.value = '';
 	}
@@ -207,3 +216,5 @@ async function main() {
 }
 
 main();
+
+window.onload()

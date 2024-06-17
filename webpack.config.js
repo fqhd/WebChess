@@ -1,10 +1,14 @@
 const path = require('path');
 
 module.exports = {
-	entry: './src/index.js',
+	entry: {
+		openings: './src/openings.js',
+		puzzles: './src/puzzles.js',
+		endgames: './src/endgames.js'
+	},
 	mode: 'development',
 	output: {
-		filename: 'script.js',
+		filename: './[name].bundle.js',
 		path: __dirname
 	},
 	devServer: {

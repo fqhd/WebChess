@@ -8,8 +8,28 @@
 body {
 	background-color: #333;
 	display: flex;
+	flex-flow: column nowrap;
 	width: 100vw;
 	height: 100vh;
+}
+
+nav {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-evenly;
+	width: 100%;
+}
+
+a {
+	margin-top: 20px;
+	font-weight: 700;
+	font-size: 36px;
+	text-decoration: none;
+	color: white;
+}
+
+a:hover {
+	color: #FEE258FF;
 }
 
 .workspace {
