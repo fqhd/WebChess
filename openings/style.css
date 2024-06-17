@@ -73,27 +73,26 @@ h1 {
 	width: 350px;
 }
 
-.history {
-	overflow-y: scroll;
+.details {
+	height: 100%;
 	width: 100%;
 	display: flex;
-	flex-flow: row wrap;
-	align-content: flex-start;
+	flex-flow: column nowrap;
+	justify-content: space-evenly;
 }
 
-.history::-webkit-scrollbar {
-	width: 0;
-	display: none;
+.details h1 {
+	font-size: 36px;
+	text-align: center;
 }
 
-p {
-	padding: 10px;
+.details p {
 	font-family: 'Roboto';
-	font-size: 14px;
-	font-weight: 500;
-	color: #ddd;
-	width: 40%;
-	height: 10px;
+	font-weight: 400;
+	color: #ccc;
+	font-size: 20px;
+	text-align: center;
+	width: 100%;
 }
 
 input::placeholder {
@@ -123,7 +122,7 @@ button {
 	border: none; /* Remove button border */
 	cursor: pointer; /* Show pointer cursor on hover */
 	transition: background-color 0.3s ease; /* Add transition effect */
-	width: 50%;
+	width: 100%;
 }
 
 .buttons {

@@ -13,12 +13,11 @@ const ctx = canvas.getContext('2d');
 ctx.scale(dpr, dpr);
 const moveInput = document.getElementById('moveInput');
 moveInput.addEventListener('keypress', keyPressed);
-document.getElementById('best-button').onclick = findBest;
-document.getElementById('restart-button').onclick = restart;
+document.getElementById('skip-button').onclick = skip;
 let invert = false;
-const moveAudio = new Audio('./res/move.mp3');
-const captureAudio = new Audio('./res/capture.mp3');
-const checkAudio = new Audio('./res/check.mp3');
+const moveAudio = new Audio('../res/move.mp3');
+const captureAudio = new Audio('../res/capture.mp3');
+const checkAudio = new Audio('../res/check.mp3');
 
 
 const pieceImages = {}
@@ -35,7 +34,7 @@ async function loadPieces() {
 	let arr = [];
 	for(const c of ['b', 'w']) {
 		for(const p of ['p', 'r', 'n', 'b', 'q', 'k']) {
-			const imageSrc = './pieces/' + c + p + '.png';
+			const imageSrc = '../pieces/' + c + p + '.png';
 			arr.push(loadImage(imageSrc));
 		}
 	}
@@ -49,44 +48,7 @@ async function loadPieces() {
 	}
 }
 
-async function restart() {
-	if (canplay || chess.isCheckmate()) {
-		chess.reset();
-		moveNumber = 1;
-		drawBoard();
-		drawPieces();
-		canplay = true;
-		if (invert) {
-			let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
-				method: 'GET',
-				headers: {
-					'fen': chess.fen(),
-					'depth': depth
-				}
-			});
-			botMove = await botMove.text();
-			botMove = botMove.trim();
-			const parsedMove = chess.move(botMove);
-			if (chess.inCheck()) {
-				checkAudio.play();
-			}else if (parsedMove.captured) {
-				captureAudio.play();
-			} else {
-				moveAudio.play();
-			}
-			drawBoard();
-			drawLastMove(parsedMove);
-			addMoveToHistory(botMove);
-			drawPieces();
-		} else {
-			drawBoard();
-			drawPieces();
-		}
-	}
-}
-
-async function findBest() {
-	
+async function skip() {
 }
 
 function chessboardIndexToSquare(x, y) {
@@ -154,52 +116,9 @@ async function keyPressed(event) {
 }
 
 async function playMove(move) {
-	if (!canplay || chess.isCheckmate()) {
-		return;
-	}
-	canplay = false;
-	if (chess.moves().includes(move)) {
-		moveInput.placeholder = 'Enter your move here';
-		moveInput.classList.remove('red-ph');
-		let parsedMove = chess.move(move);
-		if (chess.inCheck()) {
-			checkAudio.play();
-		}else if (parsedMove.captured) {
-			captureAudio.play();
-		} else {
-			moveAudio.play();
-		}
-		drawBoard();
-		drawLastMove(parsedMove);
-		drawPieces();
-		if(chess.isCheckmate()) return;
-		let botMove = await fetch('https://api.whoisfahd.dev/chessbot', {
-			method: 'GET',
-			headers: {
-				'fen': chess.fen(),
-				'depth': depth
-			}
-		});
-		botMove = await botMove.text();
-		botMove = botMove.trim();
-		parsedMove = chess.move(botMove);
-		if (chess.inCheck()) {
-			checkAudio.play();
-		}else if (parsedMove.captured) {
-			captureAudio.play();
-		} else {
-			moveAudio.play();
-		}
-		drawBoard();
-		drawLastMove(parsedMove);
-		addMoveToHistory(botMove);
-		drawPieces();
-		canplay = true;
-	} else {
-		moveInput.placeholder = 'Invalid Move';
-		moveInput.classList.add('red-ph');
-		canplay = true;
-	}
+	drawBoard();
+	drawLastMove(parsedMove);
+	drawPieces();
 }
 
 async function main() {
@@ -209,5 +128,3 @@ async function main() {
 }
 
 main();
-
-window.onload()
