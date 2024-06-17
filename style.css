@@ -32,107 +32,26 @@ a:hover {
 	color: #FEE258FF;
 }
 
-.workspace {
-	margin: auto;
-	display: flex;
-	flex-flow: column nowrap;
-	align-items: end;
-}
-
-.playing-board {
-	display: flex;
-}
-
-#moveInput {
-	height: 50px;
-	padding: 10px;
-	outline: none;
-	border-style: none;
-	background-color: #333333;
-	transition: background-color 0.3s ease;
-	text-align: center;
-	color: #FEE258FF;
-	font-size: 24px;
-	font-family: 'Roboto';
-	font-weight: 400;
-}
-
 h1 {
-	flex-flow: row nowrap;
-	font-size: 24px;
-	font-family: 'Roboto';
-	font-weight: 400;
-	color: #ddd;
-}
-
-.side-pane {
-	display: flex;
-	flex-flow: column nowrap;
-	justify-content: flex-end;
-	background-color: #252526;
-	width: 350px;
-}
-
-.history {
-	overflow-y: scroll;
-	width: 100%;
-	display: flex;
-	flex-flow: row wrap;
-	align-content: flex-start;
-}
-
-.history::-webkit-scrollbar {
-	width: 0;
-	display: none;
+    margin-top: 180px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 58px;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 p {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
 	padding: 10px;
 	font-family: 'Roboto';
-	font-size: 14px;
+	font-size: 18px;
 	font-weight: 500;
 	color: #ddd;
 	width: 40%;
 	height: 10px;
-}
-
-input::placeholder {
-	color: #ccc;
-}
-
-.red-ph::placeholder {
-	color: #f00;
-}
-
-#moveInput:focus {
-	background-color: #252526;
-}
-
-canvas {
-	border: 5px solid #252526;
-}
-
-button {
-	font-family: 'Roboto';
-	font-weight: 400;
-	height: 50px;
-	background-color: #191919; /* Button background color */
-	color: #ddd; /* Button text color */
-	padding: 10px 20px; /* Button padding */
-	font-size: 18px; /* Button text font size */
-	border: none; /* Remove button border */
-	cursor: pointer; /* Show pointer cursor on hover */
-	transition: background-color 0.3s ease; /* Add transition effect */
-	width: 50%;
-}
-
-.buttons {
-	width: 100%;
-	display: flex;
-	flex-flow: row nowrap;
-}
-  
-/* Hover style for the button */
-button:hover {
-	background-color: #FEE258FF; /* Darken button background color on hover */
+    text-align: center;
 }

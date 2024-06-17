@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #333;
+	display: flex;
+	flex-flow: column nowrap;
+	width: 100vw;
+	height: 100vh;
+}
+
+nav {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-evenly;
+	width: 100%;
+}
+
+a {
+	margin-top: 20px;
+	font-weight: 700;
+	font-size: 36px;
+	text-decoration: none;
+	color: white;
+}
+
+a:hover {
+	color: #FEE258FF;
+}
+
+.workspace {
+	margin: auto;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: end;
+}
+
+.playing-board {
+	display: flex;
+}
+
+#moveInput {
+	height: 50px;
+	padding: 10px;
+	outline: none;
+	border-style: none;
+	background-color: #333333;
+	transition: background-color 0.3s ease;
+	text-align: center;
+	color: #FEE258FF;
+	font-size: 24px;
+	font-family: 'Roboto';
+	font-weight: 400;
+}
+
+h1 {
+	flex-flow: row nowrap;
+	font-size: 24px;
+	font-family: 'Roboto';
+	font-weight: 400;
+	color: #ddd;
+}
+
+.side-pane {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-end;
+	background-color: #252526;
+	width: 350px;
+}
+
+.history {
+	overflow-y: scroll;
+	width: 100%;
+	display: flex;
+	flex-flow: row wrap;
+	align-content: flex-start;
+}
+
+.history::-webkit-scrollbar {
+	width: 0;
+	display: none;
+}
+
+p {
+	padding: 10px;
+	font-family: 'Roboto';
+	font-size: 14px;
+	font-weight: 500;
+	color: #ddd;
+	width: 40%;
+	height: 10px;
+}
+
+input::placeholder {
+	color: #ccc;
+}
+
+.red-ph::placeholder {
+	color: #f00;
+}
+
+#moveInput:focus {
+	background-color: #252526;
+}
+
+canvas {
+	border: 5px solid #252526;
+}
+
+button {
+	font-family: 'Roboto';
+	font-weight: 400;
+	height: 50px;
+	background-color: #191919; /* Button background color */
+	color: #ddd; /* Button text color */
+	padding: 10px 20px; /* Button padding */
+	font-size: 18px; /* Button text font size */
+	border: none; /* Remove button border */
+	cursor: pointer; /* Show pointer cursor on hover */
+	transition: background-color 0.3s ease; /* Add transition effect */
+	width: 50%;
+}
+
+.buttons {
+	width: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+}
+  
+/* Hover style for the button */
+button:hover {
+	background-color: #FEE258FF; /* Darken button background color on hover */
+}

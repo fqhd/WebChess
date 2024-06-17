@@ -8,7 +8,7 @@ module.exports = {
 	},
 	mode: 'development',
 	output: {
-		filename: './[name].bundle.js',
+		filename: './[name]/script.js',
 		path: __dirname
 	},
 	devServer: {

@@ -86,14 +86,7 @@ async function restart() {
 }
 
 async function findBest() {
-	/*
-	if current state is openings:
-
-	if current state is puzzles:
-
-	if current state is endgames:
 	
-	*/
 }
 
 function chessboardIndexToSquare(x, y) {
