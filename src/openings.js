@@ -19,7 +19,6 @@ const moveAudio = new Audio('../res/move.mp3');
 const captureAudio = new Audio('../res/capture.mp3');
 const checkAudio = new Audio('../res/check.mp3');
 
-
 const pieceImages = {}
 function loadImage(path) {
 	return new Promise((resolve, reject) => {
@@ -121,10 +120,15 @@ async function playMove(move) {
 	drawPieces();
 }
 
+function loadNextPosition() {
+	// Loads a random opening position onto the board
+}
+
 async function main() {
 	await loadPieces();
 	drawBoard();
 	drawPieces();
+	loadNextPosition();
 }
 
 main();
