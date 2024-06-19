@@ -57,6 +57,23 @@ async function loadPieces() {
 }
 
 function skip() {
+	canplay = false;
+	const correctMove = openings[selectionMenu.value][positions[index]];
+	const parsedMove = chess.move(correctMove);
+	if (chess.inCheck()) {
+		checkAudio.play();
+	} else if (parsedMove.captured) {
+		captureAudio.play();
+	} else {
+		moveAudio.play();
+	}
+	drawBoard();
+	drawLastMove(parsedMove, 'green');
+	drawPieces();
+	setTimeout(() => {
+		loadNextPosition();
+		canplay = true;
+	}, 1000);
 }
 
 function shuffle(array) {
