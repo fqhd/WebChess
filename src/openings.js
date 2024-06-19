@@ -14,6 +14,7 @@ ctx.scale(dpr, dpr);
 const moveInput = document.getElementById('moveInput');
 moveInput.addEventListener('keypress', keyPressed);
 document.getElementById('skip-button').onclick = skip;
+const scoreElement = document.getElementById('score');
 const selectionMenu = document.getElementById('selection-menu');
 selectionMenu.addEventListener('change', function () {
 	loadOpening(this.value);
@@ -27,6 +28,7 @@ let positions = [];
 let openings;
 let index = 0;
 let canplay = true;
+let score = 0;
 
 const pieceImages = {}
 function loadImage(path) {
@@ -188,9 +190,12 @@ async function keyPressed(event) {
 
 async function attemptMove(move) {
 	if (!canplay) return;
+	if (!(move in chess.moves())) return;
 	const correctMove = openings[selectionMenu.value][positions[index]];
 	if (move == correctMove) {
 		canplay = false;
+		score++;
+		scoreElement.textContent = 'Score: ' + score;
 		const parsedMove = chess.move(move);
 		if (chess.inCheck()) {
 			checkAudio.play();
