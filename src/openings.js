@@ -15,7 +15,7 @@ const moveInput = document.getElementById('moveInput');
 moveInput.addEventListener('keypress', keyPressed);
 document.getElementById('skip-button').onclick = skip;
 const selectionMenu = document.getElementById('selection-menu');
-selectionMenu.addEventListener('change', function(){
+selectionMenu.addEventListener('change', function () {
 	loadOpening(this.value);
 });
 let invert = false;
@@ -40,16 +40,16 @@ function loadImage(path) {
 
 async function loadPieces() {
 	let arr = [];
-	for(const c of ['b', 'w']) {
-		for(const p of ['p', 'r', 'n', 'b', 'q', 'k']) {
+	for (const c of ['b', 'w']) {
+		for (const p of ['p', 'r', 'n', 'b', 'q', 'k']) {
 			const imageSrc = '../pieces/' + c + p + '.png';
 			arr.push(loadImage(imageSrc));
 		}
 	}
 	arr = await Promise.all(arr);
 	let index = 0;
-	for(const c of ['b', 'w']) {
-		for(const p of ['p', 'r', 'n', 'b', 'q', 'k']) {
+	for (const c of ['b', 'w']) {
+		for (const p of ['p', 'r', 'n', 'b', 'q', 'k']) {
 			pieceImages[c + p] = arr[index];
 			index++;
 		}
@@ -59,11 +59,27 @@ async function loadPieces() {
 function skip() {
 }
 
+function shuffle(array) {
+	let currentIndex = array.length;
+
+	// While there remain elements to shuffle...
+	while (currentIndex != 0) {
+
+		// Pick a remaining element...
+		let randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex--;
+
+		// And swap it with the current element.
+		[array[currentIndex], array[randomIndex]] = [
+			array[randomIndex], array[currentIndex]];
+	}
+}
+
 async function loadAllOpenings() {
 	try {
 		openings = await fetch('openings.json');
 		openings = await openings.json();
-	}catch(e) {
+	} catch (e) {
 		console.log('failed to load openings');
 		return;
 	}
@@ -72,6 +88,7 @@ async function loadAllOpenings() {
 function loadOpening(opening) {
 	const posDict = openings[opening];
 	positions = Object.keys(posDict);
+	shuffle(positions);
 	index = 0;
 }
 
@@ -84,8 +101,8 @@ function drawBoard() {
 	const colors = ['#ebd2b7', '#a16f5a'];
 	const tileSize = canvas.width / 8 / dpr;
 
-	for(let i = 0; i < 8; i++) {
-		for(let j = 0; j < 8; j++) {
+	for (let i = 0; i < 8; i++) {
+		for (let j = 0; j < 8; j++) {
 			const color = colors[(i + j + invert) % 2];
 			ctx.fillStyle = color;
 			ctx.fillRect(i * tileSize, j * tileSize, tileSize, tileSize);
@@ -96,10 +113,10 @@ function drawBoard() {
 function drawPieces() {
 	const tileSize = canvas.width / 8 / dpr;
 
-	for(let i = 0; i < 8; i++) {
-		for(let j = 0; j < 8; j++) {
+	for (let i = 0; i < 8; i++) {
+		for (let j = 0; j < 8; j++) {
 			const piece = chess.get(chessboardIndexToSquare(i, j));
-			
+
 			if (piece) {
 				const pieceImage = pieceImages[piece.color + piece.type];
 				if (invert) {
@@ -155,12 +172,12 @@ async function keyPressed(event) {
 async function attemptMove(move) {
 	if (!canplay) return;
 	const correctMove = openings[selectionMenu.value][positions[index]];
-	if (move == correctMove ){
+	if (move == correctMove) {
 		canplay = false;
 		const parsedMove = chess.move(move);
 		if (chess.inCheck()) {
 			checkAudio.play();
-		}else if (parsedMove.captured) {
+		} else if (parsedMove.captured) {
 			captureAudio.play();
 		} else {
 			moveAudio.play();
@@ -170,14 +187,14 @@ async function attemptMove(move) {
 		drawPieces();
 		setTimeout(() => {
 			loadNextPosition();
-			canplay = true;	
+			canplay = true;
 		}, 1000);
 	} else {
 		canplay = false;
 		const parsedMove = chess.move(move);
 		if (chess.inCheck()) {
 			checkAudio.play();
-		}else if (parsedMove.captured) {
+		} else if (parsedMove.captured) {
 			captureAudio.play();
 		} else {
 			moveAudio.play();
