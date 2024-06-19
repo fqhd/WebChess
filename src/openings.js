@@ -17,8 +17,16 @@ document.getElementById('skip-button').onclick = skip;
 const scoreElement = document.getElementById('score');
 const selectionMenu = document.getElementById('selection-menu');
 selectionMenu.addEventListener('change', function () {
+	if(this.textContent[0] == 'W') {
+		turnMessage.textContent = 'White to move';
+	}else{
+		turnMessage.textContent = 'Black to move';
+	}
 	loadOpening(this.value);
+	drawBoard();
+	drawPieces();
 });
+const turnMessage = document.getElementById('turn');
 let invert = false;
 const moveAudio = new Audio('../res/move.mp3');
 const captureAudio = new Audio('../res/capture.mp3');
@@ -59,6 +67,7 @@ async function loadPieces() {
 }
 
 function skip() {
+	if (!canplay) return;
 	canplay = false;
 	const correctMove = openings[selectionMenu.value][positions[index]];
 	const parsedMove = chess.move(correctMove);
@@ -72,10 +81,14 @@ function skip() {
 	drawBoard();
 	drawLastMove(parsedMove, 'green');
 	drawPieces();
-	setTimeout(() => {
-		loadNextPosition();
-		canplay = true;
-	}, 1000);
+	if (index < positions.length - 1) {
+		setTimeout(() => {
+			loadNextPosition();
+			canplay = true;
+		}, 1000);
+	} else {
+		displayFinalMessage();
+	}
 }
 
 function shuffle(array) {
@@ -109,11 +122,17 @@ function loadOpening(opening) {
 	positions = Object.keys(posDict);
 	shuffle(positions);
 	index = 0;
+	chess.load(positions[index]);
 }
 
 function chessboardIndexToSquare(x, y) {
 	var files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 	return files[x] + (8 - y);
+}
+
+function displayFinalMessage() {
+	turnMessage.textContent = "Final Score: " + score + "/" + positions.length;
+
 }
 
 function drawBoard() {
@@ -190,7 +209,7 @@ async function keyPressed(event) {
 
 async function attemptMove(move) {
 	if (!canplay) return;
-	if (!(move in chess.moves())) return;
+	if(!chess.moves().includes(move)) return;
 	const correctMove = openings[selectionMenu.value][positions[index]];
 	if (move == correctMove) {
 		canplay = false;
@@ -207,10 +226,14 @@ async function attemptMove(move) {
 		drawBoard();
 		drawLastMove(parsedMove, 'green');
 		drawPieces();
-		setTimeout(() => {
-			loadNextPosition();
-			canplay = true;
-		}, 1000);
+		if (index < positions.length - 1) {
+			setTimeout(() => {
+				loadNextPosition();
+				canplay = true;
+			}, 1000);
+		} else {
+			displayFinalMessage();
+		}
 	} else {
 		canplay = false;
 		const parsedMove = chess.move(move);
@@ -244,7 +267,6 @@ async function main() {
 	await loadPieces();
 	await loadAllOpenings();
 	loadOpening(selectionMenu.value);
-	chess.load(positions[index]);
 	drawBoard();
 	drawPieces();
 }
