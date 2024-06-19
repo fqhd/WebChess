@@ -26,6 +26,7 @@ const checkAudio = new Audio('../res/check.mp3');
 let positions = [];
 let openings;
 let index = 0;
+let canplay = true;
 
 const pieceImages = {}
 function loadImage(path) {
@@ -111,7 +112,15 @@ function drawPieces() {
 	}
 }
 
-function drawSquare(file, rank) {
+function drawLastMove(parsedMove, color) {
+	const fromSquare = parsedMove.from;
+	const toSquare = parsedMove.to;
+
+	drawSquare(fromSquare[0], parseInt(fromSquare[1]), color);
+	drawSquare(toSquare[0], parseInt(toSquare[1]), color);
+}
+
+function drawSquare(file, rank, color) {
 	const fileToInt = {
 		'a': 0,
 		'b': 1,
@@ -128,33 +137,75 @@ function drawSquare(file, rank) {
 	if (invert) file = 7 - file;
 	const tileSize = canvas.width / 8 / dpr;
 	ctx.fillStyle = "#FEE258FF";
+	if (color == 'red') {
+		ctx.fillStyle = "#e83317ff";
+	} else if (color == 'green') {
+		ctx.fillStyle = "#35de62ff";
+	}
 	ctx.fillRect(file * tileSize, rank * tileSize, tileSize, tileSize);
 }
 
 async function keyPressed(event) {
 	if (event.keyCode === 13) { // Enter
-		playMove(moveInput.value);
+		attemptMove(moveInput.value);
 		moveInput.value = '';
 	}
 }
 
-async function playMove(move) {
-	console.log(move);
-	drawBoard();
-	drawLastMove(parsedMove);
-	drawPieces();
+async function attemptMove(move) {
+	if (!canplay) return;
+	const correctMove = openings[selectionMenu.value][positions[index]];
+	if (move == correctMove ){
+		canplay = false;
+		const parsedMove = chess.move(move);
+		if (chess.inCheck()) {
+			checkAudio.play();
+		}else if (parsedMove.captured) {
+			captureAudio.play();
+		} else {
+			moveAudio.play();
+		}
+		drawBoard();
+		drawLastMove(parsedMove, 'green');
+		drawPieces();
+		setTimeout(() => {
+			loadNextPosition();
+			canplay = true;	
+		}, 1000);
+	} else {
+		canplay = false;
+		const parsedMove = chess.move(move);
+		if (chess.inCheck()) {
+			checkAudio.play();
+		}else if (parsedMove.captured) {
+			captureAudio.play();
+		} else {
+			moveAudio.play();
+		}
+		drawBoard();
+		drawLastMove(parsedMove, 'red');
+		drawPieces();
+		chess.undo();
+		setTimeout(() => {
+			canplay = true;
+			drawBoard();
+			drawPieces();
+		}, 1000);
+	}
 }
 
 function loadNextPosition() {
+	index++;
 	chess.load(positions[index]);
-	index++;	
+	drawBoard();
+	drawPieces();
 }
 
 async function main() {
 	await loadPieces();
 	await loadAllOpenings();
 	loadOpening(selectionMenu.value);
-	loadNextPosition();
+	chess.load(positions[index]);
 	drawBoard();
 	drawPieces();
 }
