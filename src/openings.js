@@ -14,10 +14,18 @@ ctx.scale(dpr, dpr);
 const moveInput = document.getElementById('moveInput');
 moveInput.addEventListener('keypress', keyPressed);
 document.getElementById('skip-button').onclick = skip;
+const selectionMenu = document.getElementById('selection-menu');
+selectionMenu.addEventListener('change', function(){
+	loadOpening(this.value);
+});
 let invert = false;
 const moveAudio = new Audio('../res/move.mp3');
 const captureAudio = new Audio('../res/capture.mp3');
 const checkAudio = new Audio('../res/check.mp3');
+
+let positions = [];
+let openings;
+let index = 0;
 
 const pieceImages = {}
 function loadImage(path) {
@@ -47,7 +55,23 @@ async function loadPieces() {
 	}
 }
 
-async function skip() {
+function skip() {
+}
+
+async function loadAllOpenings() {
+	try {
+		openings = await fetch('openings.json');
+		openings = await openings.json();
+	}catch(e) {
+		console.log('failed to load openings');
+		return;
+	}
+}
+
+function loadOpening(opening) {
+	const posDict = openings[opening];
+	positions = Object.keys(posDict);
+	index = 0;
 }
 
 function chessboardIndexToSquare(x, y) {
@@ -115,20 +139,24 @@ async function keyPressed(event) {
 }
 
 async function playMove(move) {
+	console.log(move);
 	drawBoard();
 	drawLastMove(parsedMove);
 	drawPieces();
 }
 
 function loadNextPosition() {
-	// Loads a random opening position onto the board
+	chess.load(positions[index]);
+	index++;	
 }
 
 async function main() {
 	await loadPieces();
+	await loadAllOpenings();
+	loadOpening(selectionMenu.value);
+	loadNextPosition();
 	drawBoard();
 	drawPieces();
-	loadNextPosition();
 }
 
 main();
